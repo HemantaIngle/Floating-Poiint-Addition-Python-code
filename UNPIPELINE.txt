@@ -1,0 +1,320 @@
+pair=1
+Mant36=list('')
+extp=list('')
+Sign36=list('')
+my_clock=1
+for m in range(0,8):
+	if(pair==1):
+		num36br = 98
+	if(pair==2):
+		num36br = 0
+	if(pair==3):
+		num36br = -45
+	if(pair==4):
+		num36br = -283
+	if(pair==5):
+		num36br = 110.875
+	if(pair==6):
+		num36br = 0
+	if(pair==7):
+		num36br = 99
+	if(pair==8):
+		num36br = 99.875#-110.125
+	
+	extp=[]
+	Sign36=[]
+	Mant36=[]
+	extp=[]
+	Sign36=[]
+
+	for k in range (0,2):
+		
+		num36br = num36br*1.0	
+		print "num36:",num36br,	
+		dcml=""
+		qt=0
+		sgn=0
+		if(float(num36br) < 0):
+			#print "ngt"
+			sgn = 1
+			num36br = num36br*(-1)
+		Sign36.append(sgn)
+		num36br = str(num36br)
+		num36br = num36br.split('.')
+		nmA = int(float(num36br[0]))
+		l_m = len(str(num36br[1]))	
+		nmB = (float(num36br[1]))
+		#print "num36br",num36br
+		while(l_m!=0):
+			nmB = nmB/(10)
+			l_m=l_m-1
+			#print nmA,nmB
+		
+		nmb_I = bin(nmA).replace('0b','')
+		#print "DS",nmb_I 	
+		Exp36 = len(nmb_I)-1
+		Exp36onent = Exp36+15
+		Exp36onent = bin(Exp36onent).replace('0b','')	
+		if(nmA==0.0):
+			Exp36onent="0"	
+		extp.append(str(Exp36onent))##both Exp36onent here
+		my_clock=my_clock+1 #3
+		##print "my_clock : ",my_clock, "Exp36:",extp
+
+#FINDING A EXPONENT	
+		nmB = str(nmB*2)
+		nmB = nmB.split('.')
+		#print "nmb",nmB[0], ".", nmB[1]
+		dcml = dcml + str(nmB[0]) 
+		my_var = int(nmB[1])
+		first_val = my_var
+		##print "SDddddS",nmB[0], ".", my_var,",",dcml
+		while(qt==0):
+		#for k in range(0,4):
+			qt=0
+			l_m = len(str(my_var))	
+			##print "my_dvcdvar ",my_var,l_m	
+			while(l_m!=0):
+				my_var = my_var/(10.0)
+				l_m=l_m-1
+				##print "my_ddvar ",my_var		
+			my_var = my_var*2		
+			dcml = dcml + str(int(my_var))
+			##print "my_var ",my_var,dcml	
+			my_var = int((my_var%1)*10)
+		
+			if(int(first_val) == int(my_var)):
+				qt=1		
+			if(int(my_var)==0):
+				qt=1
+			#print dcml, "LK",my_var, "qt", qt," first_val ",first_val
+		#print "KK",".",dcml
+		b_nm_I = str(nmb_I[0:1]) + "."+str(nmb_I[1:]) + str(dcml)
+		b_nm_IV = str(nmb_I) + "." + str(dcml) 	
+		#print b_nm_IV,"final ",b_nm_I, "sgn",sgn
+		Mant36.append(b_nm_I) ##both Mant36essa here	
+		dcml=""
+		nmB=""
+		my_var=0
+		first_val=0
+		sgn=0
+		
+		if(pair==1):
+			num36br = 169*1.0 #num36brII
+
+		if(pair==2):
+			num36br = 0*1.0 #num36brII
+		if(pair==3):
+			num36br = 79*1.0 #num36brII
+		if(pair==4):
+			num36br = -66*1.0 #num36brII
+		if(pair==5):
+			num36br = 99.125*1.0 #num36brII
+
+		if(pair==6):
+			num36br = 117*1.0 #num36brII
+		if(pair==7):
+			num36br = -89*1.0 #num36brII
+		if(pair==8):
+			num36br = -110.125#99.875*1.0 #num36brII
+		my_clock=my_clock+1 #3
+		
+		##print "my_clock : ",my_clock, "Mant36:",Mant36
+##print 	"final;;;;; ",b_nm_I, "sgn",sgn, "Mant36",Mant36,"Exp36",extp #b_nm_IV
+	
+#FINDING MANTISSA
+	print""	
+	pair=pair+1
+	if(len(Mant36[0])<len(Mant36[1])):
+		diff_ln = len(Mant36[1]) - len(Mant36[0]) 	
+		while(diff_ln>0):
+			diff_ln = diff_ln - 1
+			Mant36[0] = str(Mant36[0]).replace('.',"")		
+			Mant36[0] = "0."+str(Mant36[0])
+			Mant36[0] = str(Mant36[0]).replace('0b',"")		
+			#Mant36[0] = str(float(Mant36[0])/10).replace('0b',"")
+			#Mant36[0] = (str(Mant36[0])+"0").replace('0b',"")##not used
+			##print "MK",Mant36[1]
+	else:	
+		diff_ln = len(Mant36[0]) - len(Mant36[1])
+		while(diff_ln>0):
+			diff_ln = diff_ln - 1
+			Mant36[1] = str(Mant36[1]).replace('.',"")		
+			Mant36[1] = "0."+str(Mant36[1])
+			Mant36[1] = str(Mant36[1]).replace('0b',"")
+			#Mant36[1] = str(float(Mant36[1])/10).replace('0b',"")
+			#Mant36[1] = (str(Mant36[1])+"0").replace('0b',"")
+			##print "LK",Mant36[1]	
+	
+	#print "diff",diff_ln
+	my_clock=my_clock+1 #3
+	##print	"my_clock : ",my_clock, "Mant36",Mant36[0],Mant36[1],"Exp36",extp
+	
+	#print "sgn",Sign36, "Mant36",Mant36[0],Mant36[1],"Exp36",extp
+	
+#NORMALIZING
+
+	mI=str(Mant36[0])
+	mII=str(Mant36[1])
+	
+	Mant36_int_val=0
+	if(float(mII)>float(mI)):
+		
+		final_Sign36=int(Sign36[1])
+	else:
+		final_Sign36=int(Sign36[0])
+	
+	Mant36_Sign36=0
+	if(Sign36[1]==1 or Sign36[0]==1):
+		Mant36_Sign36 = 1
+	if(Sign36[1]==1 and Sign36[0]==1):
+		Mant36_Sign36 = 0
+	Mant36_int_val=0
+	my_clock=my_clock+1 #3
+	
+	##print "my_clock : ",my_clock, "Mant36 Sign36 Internal calc",Mant36_int_val
+
+	#SIGN FOR MANTISSA
+
+	one_compl=""
+	two_compl=""
+	#if(float(mII[1:])>float(mI[1:])):
+	if(float(mII)>float(mI)):
+		if(Mant36_Sign36==1):
+			##print "M1 small"
+			for a_b in str(mI[2:]):
+				if (a_b=="0"):
+					one_compl = one_compl+"1"
+				else:
+					one_compl = one_compl+"0"			
+				
+			##print one_compl,"CD",int(one_compl,2)
+			len_one_cmp = len(str(one_compl))
+			one_compl = int(one_compl,2)+1		
+			two_compl = (bin(one_compl))
+			two_compl = two_compl.replace('0b',"")
+			##print len(str(two_compl)),len_one_cmp
+			while(len(str(two_compl))!=len_one_cmp):
+				#print len(str(two_compl))
+				two_compl="0"+str(two_compl)
+				#print two_compl,one_compl
+			##print "Int of 1comp",one_compl,two_compl
+			mI = str(mI[:2])+two_compl 
+			##print "NEW Mant36",mI
+	else:
+		if(Mant36_Sign36==1):
+			##print "M2 small"	
+			for a_b in str(mII[2:]):
+				if (a_b=="0"):
+					one_compl = one_compl+"1"
+				else:
+					one_compl = one_compl+"0"			
+			
+			##print one_compl,"CD",int(one_compl,2)
+			len_one_cmp = len(str(one_compl))
+			one_compl = int(one_compl,2)+1		
+			two_compl = (bin(one_compl))
+			two_compl = two_compl.replace('0b',"")
+			##print len(str(two_compl)),len_one_cmp
+			while(len(str(two_compl))!=len_one_cmp):
+				two_compl="0"+str(two_compl)
+			
+			##print "Int of 1comp",one_compl,two_compl
+			mII = str(mII[:2])+two_compl 
+			##print "NEW Mant36",mII
+	
+	my_clock=my_clock+1 #3
+	##print "my_clock : ",my_clock, "Two comp",two_compl
+	##print "New Mant36s",mI, "M1", mII, "M2"
+
+	#TWOS COMPLEMENT
+
+	mI = mI.replace(".","")
+	mII = mII.replace(".","")
+	mI=int(mI,2)
+	mII=int(mII,2)
+	
+	mIII = bin(mI+mII)
+	mIII = mIII.replace('0b',"")
+	my_clock=my_clock+1 #3
+	##print "my_clock : ",my_clock, "Added Mant36",mIII
+	#print "Added Mant36",mIII
+	
+	if(Mant36_Sign36==1):
+		div_new = int(extp[0],2)-15
+		div_new_II = int(extp[1],2)-15
+		if(div_new_II>div_new):
+			point_adjust = div_new_II+1
+		else:
+			point_adjust = div_new+1
+		mIII = "."+mIII[-point_adjust:]
+		 	
+	my_clock=my_clock+1 #3
+	#print "Norm Mant36",mIII
+	
+	#print "Point shift Mant36",mIII
+	
+	#RECHECK NORMALIZATION
+	
+	if(len(str(mIII))>len(str(mI))):
+		incrm=1
+	else:
+		incrm=0
+	##mIII = mIII[0]+"."+mIII[1:]  #mIII = mIII[-10:]
+	if(float(mIII)==0):
+			mIII = "0"+".0"			
+	else:	
+		mIII = "1"+"."+mIII[1:]  #mIII = mIII[-10:]
+	mIII = mIII.replace('0b',"") ### final added Mant36essa
+	
+	my_clock=my_clock+1 #3
+	
+	#ADDING MANTISSSA
+	
+	exI=str(extp[0])
+	exII=str(extp[1])
+	
+	exI=int(exI[0:5],2)
+	exII=int(exII[0:5],2)
+	#print exI," INT ",exII
+	if(Mant36_Sign36==1):
+		if(exI<=exII):
+			exIII=exI
+		else:
+			exIII=exII
+	else:
+		if(exI>=exII):
+			exIII=exI
+		else:
+			exIII=exII	
+	##print exIII
+	my_clock=my_clock+1 #3
+	##print "my_clock : ",my_clock, "-ve Exp36 cal ",exIII
+	
+	#EXPONENT CALCULATION
+	#print bin(exI),bin(exII)
+	exIII = bin(exIII)
+	#exIII = exIII[-5:] 
+	exIII = exIII.replace('0b',"") ### final added Exp36onent
+	##print "old Exp36",exIII
+	#if((incrm==1)and(Mant36_Sign36==0)) :	
+	if(pair==9)or(pair==2) :
+		
+		exIII=int(exIII,2)
+		exIII=exIII+1
+		exIII=bin(exIII)
+		exIII = exIII.replace('0b',"") ### final added Exp36onent
+	        ##print "new Exp36",exIII,"new",mIII#[0],".",mIII[0:]  
+	#print "EX",exIII
+	my_clock=my_clock+1 #3
+	##print "my_clock : ",my_clock, "+ve ",exIII
+	
+	my_clock=my_clock+1 #3
+	##print "my_clock : ",my_clock, "Final "
+	#pair=pair+2	
+	#print "cycles",my_clock,"Sign36", final_Sign36, "Mant36",mIII,"Exp36",exIII
+	print "Sign36", final_Sign36, "Mant36",mIII,"Exp36",exIII
+	print""	
+	extp=[]
+	Sign36=[]
+	

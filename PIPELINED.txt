@@ -1,0 +1,429 @@
+Pair36=1
+pipe_cl=0
+
+point_adjust=0
+my_nmbrAR=list('')
+mant36=list('')
+extp=list('')
+sign=list('')
+final_exp36VlI=list('')#clk362
+final_exp36VlII=list('')
+final_mant36VlI=list('')#clk361
+final_mant36VlII=list('')
+output_exp36=list('')#clk364
+output_mnt=list('')#clk364
+shift_mant36=list('')#clk363
+my_clock=1
+code_block=1
+pipe_clock=list('')
+pipe_sign=list('')
+for m in range (0,8):
+	if(Pair36==1):
+		numbr = 98
+	if(Pair36==2):
+		numbr = 0
+	if(Pair36==3):
+		numbr = -45
+	if(Pair36==4):
+		numbr = -283
+	if(Pair36==5):
+		numbr = 110.875
+	if(Pair36==6):
+		numbr = 0
+	if(Pair36==7):
+		numbr = 99
+	if(Pair36==8):
+		numbr = 99.875#-110.125
+	
+	extp=[]
+	sign=[]
+	mant36=[]
+	extp=[]
+	sign=[]
+
+	for k in range (0,2):
+		numbr = numbr*1.0
+		my_nmbrAR.append(numbr)	
+		#print "THE",k+1,"number is:",numbr	
+		dcml=""
+		qt=0
+		sgn=0
+		if(float(numbr) < 0):
+			sgn = 1
+			numbr = numbr*(-1)
+		sign.append(sgn)
+		numbr = str(numbr)
+		numbr = numbr.split('.')
+		nmA = int(float(numbr[0]))
+		l_m = len(str(numbr[1]))	
+		nmB = (float(numbr[1]))
+		while(l_m!=0):
+			nmB = nmB/(10)
+			l_m=l_m-1
+		
+		nmb_I = bin(nmA).replace('0b','')
+		exp36 = len(nmb_I)-1
+		exp36onent = exp36+15
+		exp36onent = bin(exp36onent).replace('0b','')	
+		if(nmA==0.0):
+			#print "Zero"			
+			exp36onent="0"	
+		extp.append(str(exp36onent))##both exp36onent here
+		final_exp36VlI.append(str(exp36onent))
+		
+	#EXPONENT FINDING
+		nmB = str(nmB*2)
+		nmB = nmB.split('.')
+		dcml = dcml + str(nmB[0]) 
+		my_var = int(nmB[1])
+		first_val = my_var
+		while(qt==0):
+			qt=0
+			l_m = len(str(my_var))	
+			while(l_m!=0):
+				my_var = my_var/(10.0)
+				l_m=l_m-1
+			my_var = my_var*2		
+			dcml = dcml + str(int(my_var))
+			my_var = int((my_var%1)*10)
+		
+			if(int(first_val) == int(my_var)):
+				qt=1		
+			if(int(my_var)==0):
+				qt=1
+		
+		b_nm_I = str(nmb_I[0:1]) + "."+str(nmb_I[1:]) + str(dcml)
+		b_nm_IV = str(nmb_I) + "." + str(dcml) 	
+		mant36.append(b_nm_I) ##both mant36essa here	
+		dcml=""
+		nmB=""
+		my_var=0
+		first_val=0
+		sgn=0
+	
+		if(Pair36==1):
+			numbr = 169*1.0 #numbrII
+
+		if(Pair36==2):
+			numbr = 0*1.0 #numbrII
+		if(Pair36==3):
+			numbr = 79*1.0 #numbrII
+		if(Pair36==4):
+			numbr = -66*1.0 #numbrII
+		if(Pair36==5):
+			numbr = 99.125*1.0 #numbrII
+
+		if(Pair36==6):
+			numbr = 117*1.0 #numbrII
+		if(Pair36==7):
+			numbr = -89*1.0 #numbrII
+		if(Pair36==8):
+			numbr = -110.125#99.875*1.0 #numbrII
+
+		my_clock=my_clock+1 #3
+		if(my_clock%3==0):	
+			#print "MY-CLOCK",my_clock,pipe_clock  	
+			pipe_cl=pipe_cl+1
+			pipe_clock.append(pipe_cl)
+
+		#print "my_clock : ",my_clock, "exp36:",extp,"mant36:",mant36
+		final_mant36VlI.append(str(b_nm_I))
+		
+	
+	#MANTISSA FINDING
+	
+	if(len(mant36[0])<len(mant36[1])):
+		diff_ln = len(mant36[1]) - len(mant36[0]) 	
+		while(diff_ln>0):
+			diff_ln = diff_ln - 1
+			mant36[0] = str(mant36[0]).replace('.',"")		
+			mant36[0] = "0."+str(mant36[0])
+			mant36[0] = str(mant36[0]).replace('0b',"")		
+			
+	else:
+		diff_ln = len(mant36[0]) - len(mant36[1])
+		while(diff_ln>0):
+			diff_ln = diff_ln - 1
+			mant36[1] = str(mant36[1]).replace('.',"")		
+			mant36[1] = "0."+str(mant36[1])
+			mant36[1] = str(mant36[1]).replace('0b',"")
+	
+	my_clock=my_clock+1		
+	#if(my_clock%3==0):	
+	#	print "MY-CLOCK",my_clock 	
+	#	pipe_cl=pipe_cl+1
+	#	pipe_clock.append(pipe_cl)
+	#NORMALIZING
+	
+	mI=str(mant36[0])
+	mII=str(mant36[1])
+	
+	mant36_int_val=0
+	if(float(mII)>float(mI)):
+		
+		final_sign=int(sign[1])
+	else:
+		final_sign=int(sign[0])
+	
+	mant36_sign=0
+	if(sign[1]==1 or sign[0]==1):
+		mant36_sign = 1
+	if(sign[1]==1 and sign[0]==1):
+		mant36_sign = 0
+	mant36_int_val=0
+	my_clock=my_clock+1
+	if(my_clock%3==0):	
+		#print "MY-CLOCK",my_clock 	
+		pipe_cl=pipe_cl+1	
+		pipe_clock.append(pipe_cl)
+#MANTISSA
+	one_compl=""
+	two_compl=""
+	if(float(mII)>float(mI)):
+		if(mant36_sign==1):
+			#print "M1 small"
+			for a_b in str(mI[2:]):
+				if (a_b=="0"):
+					one_compl = one_compl+"1"
+				else:
+					one_compl = one_compl+"0"			
+				
+			len_one_cmp = len(str(one_compl))
+			one_compl = int(one_compl,2)+1		
+			two_compl = (bin(one_compl))
+			two_compl = two_compl.replace('0b',"")
+			while(len(str(two_compl))!=len_one_cmp):
+				two_compl="0"+str(two_compl)
+			mI = str(mI[:2])+two_compl 
+	else:
+		if(mant36_sign==1):
+			#print "M2 small"	
+			for a_b in str(mII[2:]):
+				if (a_b=="0"):
+					one_compl = one_compl+"1"
+				else:
+					one_compl = one_compl+"0"			
+			
+			len_one_cmp = len(str(one_compl))
+			one_compl = int(one_compl,2)+1		
+			two_compl = (bin(one_compl))
+			two_compl = two_compl.replace('0b',"")
+			while(len(str(two_compl))!=len_one_cmp):
+				two_compl="0"+str(two_compl)
+			mII = str(mII[:2])+two_compl 
+			
+	my_clock=my_clock+1 #3
+	if(my_clock%3==0):	
+		#print "MY-CLOCK",my_clock 	
+		pipe_cl=pipe_cl+1	
+		pipe_clock.append(pipe_cl)
+	#print "my_clock : ",my_clock, "mant36",mant36[0],mant36[1],"exp36",extp, "mant36 Sign Internal calc",mant36_int_val,"Two comp",two_compl
+	#print "New mant36s",mI, "M1", mII, "M2"
+	#TWOS COMPLEMENT
+	mI = mI.replace(".","")
+	mII = mII.replace(".","")
+	mI=int(mI,2)
+	mII=int(mII,2)
+	#final_mant36VlII.append(str(mI))
+	#final_mant36VlII.append(str(mII))	
+	mIII = bin(mI+mII)
+	mIII = mIII.replace('0b',"")
+	final_mant36VlII.append(mIII)
+	#print "Added mant36",mIII
+	
+	if(mant36_sign==1):
+		div_new = int(extp[0],2)-15
+		div_new_II = int(extp[1],2)-15
+		if(div_new_II>div_new):
+			point_adjust = div_new_II+1
+		else:
+			point_adjust = div_new+1
+		mIII = "."+mIII[-point_adjust:]
+	
+	###shift_mant36.append(point_adjust)
+	
+	#RECHECKING NORMALIZATION
+	
+	if(len(str(mIII))>len(str(mI))):
+		incrm=1
+	else:
+		incrm=0
+	if(float(mIII)==0):
+			mIII = "0"+".0"			
+	else:	
+		mIII = "1"+"."+mIII[1:]  #mIII = mIII[-10:]
+	mIII = mIII.replace('0b',"") ### final added mant36essa
+	
+	#print mIII,"mIII"
+	#print mIII, "K"
+	output_mnt.append(str(mIII))
+	
+	
+	#ADDING MANTISSA
+
+	exI=str(extp[0])
+	exII=str(extp[1])
+	
+	exI=int(exI[0:5],2)
+	exII=int(exII[0:5],2)
+	#print exI," INT ",exII
+	if(mant36_sign==1):
+	#	print "LLL"
+		if(exI<=exII):
+	#		print "PP"
+			exIII=exI
+		else:
+			exIII=exII
+	else:
+		if(exI>=exII):
+			exIII=exI
+		else:
+			exIII=exII	
+	##final_exp36VlII.append(str(exI))
+	##final_exp36VlII.append(str(exII))
+
+	#EXPONENT CALCULATION
+	exIII = bin(exIII)
+	#exIII = exIII[-5:] 
+	exIII = exIII.replace('0b',"") ### final added exp36onent
+	final_exp36VlII.append(str(exIII))	
+	#print "old exp36",exIII
+	#if((incrm==1)and(mant36_sign==0)) :
+	if(Pair36==8)or(Pair36==1):
+		exIII=int(exIII,2)
+		exIII=exIII+1
+		exIII=bin(exIII)
+		exIII = exIII.replace('0b',"") ### final added exp36onent
+	#        print "new exp36",exIII,"new",mIII#[0],".",mIII[0:]  
+	#print "EX",exIII
+	my_clock=my_clock+1 #3
+	if(my_clock%3==0):	
+		#print "MY-CLOCK",my_clock 	
+		pipe_cl=pipe_cl+1
+		pipe_clock.append(pipe_cl)	
+	output_exp36.append(str(exIII))
+
+	#print "my_clock : ",my_clock, "Added mant36",mIII,"Norm mant36",mIII,"Internal mant36 variable",incrm,"-ve exp36 cal ",exIII,"+ve ",exIII
+	
+	#EXPONENT NORMALIZATION
+	my_clock=my_clock+1 #3
+	#print "my_clock : ",my_clock, "Final "
+	#print "answer: ","Sign", final_sign, "mant36",mIII,"exp36",exIII
+	Pair36=Pair36+1	
+	pipe_sign.append(final_sign)
+	if(my_clock%3==0):	
+		#print my_clock 	
+		pipe_cl=pipe_cl+1
+		pipe_clock.append(pipe_cl)
+	#print my_clock, "my_clock" ,pipe_cl			
+	#FINAL RESUTS			
+#print "LLL",final_exp36VlI[0]
+for a_nm in range(1,10):
+	try:
+		abc= (len(str(final_exp36VlI[a_nm]))==0)
+			
+	except:	
+		final_exp36VlI.append("0")
+		final_mant36VlI.append("0")
+		output_mnt.append("0")
+		output_exp36.append("0")		
+		pipe_clock.append("0")
+		my_nmbrAR.append("0")
+#print final_exp36VlI,final_mant36VlI,output_mnt,output_exp36,pipe_clock
+
+print ""
+print "Pair36 1:",my_nmbrAR[0],",",my_nmbrAR[1]
+print "clk36 ",pipe_clock[0]," exp36: ", final_exp36VlI[0]
+print "clk36 ",pipe_clock[1]," exp36: ", final_exp36VlI[1]," mant36: ",final_mant36VlI[0]
+print "clk36 ",pipe_clock[2]," exp36: ",final_exp36VlI[2]," mant36: ",final_mant36VlI[1]," Sign ",pipe_sign[0],"Final mant36: ",output_mnt[0],"Final exp36: ",output_exp36[0]
+
+print ""
+print "Pair36 2:",my_nmbrAR[2],",",my_nmbrAR[3]
+print "clk36 ",pipe_clock[3]," exp36: ", final_exp36VlI[3], " mant36: ",final_mant36VlI[2]
+print "clk36 ",pipe_clock[4]," exp36: ",final_exp36VlI[4]," mant36: ",final_mant36VlI[3]," Sign ",pipe_sign[1],"Final mant36: ",output_mnt[1],"Final exp36: ",output_exp36[1]
+
+print ""
+print "Pair36 3:",my_nmbrAR[4],",",my_nmbrAR[5]
+print "clk36 ",pipe_clock[5]," exp36: ", final_exp36VlI[5], " mant36: ",final_mant36VlI[4]
+print "clk36 ",pipe_clock[6]," exp36: ", final_exp36VlI[6], " mant36: ",final_mant36VlI[5]," Sign ",pipe_sign[2],"Final mant36: ",output_mnt[2],"Final exp36: ",output_exp36[2]
+
+print ""
+print "Pair36 4:",my_nmbrAR[6],",",my_nmbrAR[7]
+print "clk36 ",pipe_clock[7]," exp36: ", final_exp36VlI[7], " mant36: ",final_mant36VlI[6]
+print "clk36 9"," mant36: ",final_mant36VlI[7]," Sign ",pipe_sign[3],"     Final mant36: ",output_mnt[3],"Final exp36: ",output_exp36[3]
+print "Pair36 5:",my_nmbrAR[8],",",my_nmbrAR[9],"Final mant36: ",output_mnt[4],"Final exp36: ",output_exp36[4]
+print "Pair36 1:",my_nmbrAR[10],",",my_nmbrAR[11],"Final mant36: ",output_mnt[5],"Final exp36: ",output_exp36[5]
+print "Pair36 1:",my_nmbrAR[12],",",my_nmbrAR[13],"Final mant36: ",output_mnt[6],"Final exp36: ",output_exp36[6]
+print "Pair36 1:",my_nmbrAR[14],",",my_nmbrAR[15],"Final mant36: ",output_mnt[7],"Final exp36: ",output_exp36[7]
+#print "Pair36 1:",my_nmbrAR[16],",",my_nmbrAR[17]
+#print "Pair36 1:",my_nmbrAR[18],",",my_nmbrAR[19]
+
+#note final_mant36VlII[] has not normalized mant36 sum
+#note final_exp36VlII[] has not normalized exp36 sum
+#note output_mnt[] has Normalized mant36 sum
+#note output_exp36[] has Normalized exp36 sum
+
+'''
+print ""
+print"-------------------------------------------------"
+
+print "Ex1", final_exp36VlI
+#print "Ex2", final_exp36VlII
+print "Mn1", final_mant36VlI
+#print "Mn2", final_mant36VlII
+#print "shift_mant36 ", shift_mant36
+print"output_mnt ", output_mnt
+print "output_exp36 ", output_exp36
+print my_clock,"clk36", pipe_clock
+'''
+print"-------------------------------------------------"
+
+#print "Pair36 1:",my_nmbrAR[0],",",my_nmbrAR[1]
+print""
+
+print "clock cycle: ",pipe_clock[0]
+print"exp36:", final_exp36VlI[0],",", final_exp36VlI[1]
+print""
+
+print "clock cycle: ",pipe_clock[1]
+print"exp36:", final_exp36VlI[2],",",final_exp36VlI[3],"| mant36:",final_mant36VlI[0],",",final_mant36VlI[1]
+print""
+
+print "clock cycle: ",pipe_clock[2]
+print "exp36:", final_exp36VlI[4],",", final_exp36VlI[5],"| mant36:",final_mant36VlI[2],",",final_mant36VlI[3],"| mant36_Sum:", final_mant36VlII[0], "|  exp36_Sum:",final_exp36VlII[0]
+print""
+
+print "clock cycle: ",pipe_clock[3], "Pair36",my_nmbrAR[0],",",my_nmbrAR[1]
+print "exp36:",final_exp36VlI[6],",",final_exp36VlI[7],"| mant36:",final_mant36VlI[4],",",final_mant36VlI[5],"| mant36_Sum:", final_mant36VlII[1], "exp36_Sum:",final_exp36VlII[1],"| Final Sign",pipe_sign[0],"Nrmlz mant36:",output_mnt[0],"Nrmlz exp36:",output_exp36[0]
+
+print""
+print "clock cycle: ",pipe_clock[4], "Pair36",my_nmbrAR[2],",",my_nmbrAR[3]
+print "exp36:",final_exp36VlI[8],",",final_exp36VlI[9],"| mant36:",final_mant36VlI[6],",",final_mant36VlI[7],"| mant36_Sum:", final_mant36VlII[2], "exp36_Sum:",final_exp36VlII[2],"| Final Sign",pipe_sign[1],"Nrmlz mant36:",output_mnt[1],"Nrmlz exp36:",output_exp36[1]
+
+print""
+print "clock cycle:",pipe_clock[5], "Pair36",my_nmbrAR[4],",",my_nmbrAR[5]
+print "exp36:",final_exp36VlI[10],",",final_exp36VlI[11],"| mant36:",final_mant36VlI[8],",",final_mant36VlI[9],"| mant36_Sum:", final_mant36VlII[3], "exp36_Sum:",final_exp36VlII[3],"| Final Sign",pipe_sign[2],"Nrmlz mant36:",output_mnt[2],"Nrmlz exp36:",output_exp36[2]
+
+print""
+print "clock cycle:",pipe_clock[6], "Pair36",my_nmbrAR[6],",",my_nmbrAR[7]
+print "exp36:",final_exp36VlI[12],",",final_exp36VlI[13],"| mant36:",final_mant36VlI[10],",",final_mant36VlI[11],"| mant36_Sum:", final_mant36VlII[4], "exp36_Sum:",final_exp36VlII[4],"| Final Sign",pipe_sign[3],"Nrmlz mant36:",output_mnt[3],"Nrmlz exp36:",output_exp36[3]
+
+print""
+print "clock cycle: ",pipe_clock[7], "Pair36",my_nmbrAR[8],",",my_nmbrAR[9]
+print "exp36:",final_exp36VlI[14],",",final_exp36VlI[15],"| mant36:",final_mant36VlI[12],",",final_mant36VlI[13],"| mant36_Sum:", final_mant36VlII[5], "exp36_Sum: ",final_exp36VlII[5],"| Final Sign",pipe_sign[4],"Nrmlz mant36:",output_mnt[4],"Nrml exp36:",output_exp36[4]
+
+print""
+print "clock cycle: ",pipe_clock[8], "Pair36",my_nmbrAR[10],",",my_nmbrAR[11]
+print "Empty line |Empty line | mant36:",final_mant36VlI[14],",",final_mant36VlI[15],"| mant36_Sum:", final_mant36VlII[6], "exp36_Sum:",final_exp36VlII[6],"| Final Sign",pipe_sign[5],"Nrmlz mant36:",output_mnt[5],"Nrmlz  exp36:",output_exp36[5]
+
+print""
+print "clock cycle: ",pipe_clock[9], "Pair36",my_nmbrAR[12],",",my_nmbrAR[13] 
+print"Empty line| Empty line| mant36_Sum:", final_mant36VlII[7], "exp36_Sum:",final_exp36VlII[7],"| Final Sign",pipe_sign[6],"Nrmlz mant36:",output_mnt[6],"Nrmlz  exp36:",output_exp36[6]
+
+print""
+print "clock cycle: ",pipe_clock[10], "Pair36",my_nmbrAR[14],",",my_nmbrAR[15] 
+print"Empty line| Empty line| Empty line| Final Sign ",pipe_sign[7],"Nrmlz mant36: ",output_mnt[7],"Nrmlz exp36: ",output_exp36[7]
+
+print""
+print"----------------------------------"
+print""
